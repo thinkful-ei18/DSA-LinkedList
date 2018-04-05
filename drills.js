@@ -25,6 +25,33 @@ class LinkedList {
       tempNode.next = new _Node(item, null);
     }
   }
+  insertBefore(newItem, beforeItem) {
+    let location = this.find(beforeItem);
+    let newNode = new _Node(newItem, location);
+
+    let tempNode = this.head;
+    while (tempNode.next.value !== location.value) {
+      tempNode = tempNode.next;
+    }
+    tempNode.next = newNode;
+  }
+  insertAfter(newItem, afterItem) {
+    let location = this.find(afterItem);
+    let newNode = new _Node(newItem, location.next);
+    location.next = newNode;
+    console.log(location);
+  }
+  insertAt(newItem, position) {
+    position = position - 2;
+    let newNode = new _Node(newItem, null);
+    let currentPosition = this.head;
+    for (let i = 0; i < position; i++) {
+      currentPosition = currentPosition.next;
+    }
+    newNode.next = currentPosition.next;
+    currentPosition.next = newNode;
+    console.log(currentPosition);
+  }
   find(item) {
     //start at the head
     let currNode = this.head;
@@ -52,7 +79,7 @@ class LinkedList {
       return null;
     }
     //if the node to be removed is head, make the next node head
-    if (this.head === item) {
+    if (this.head.value === item) {
       this.head = this.head.next;
       return;
     }
@@ -82,6 +109,64 @@ let main = () => {
   SSL.insertFirst('Helo');
   SSL.insertFirst('Boomer');
   SSL.insertFirst('Apollo');
+  SSL.insertFirst('Tauhida');
+  function display(list) {
+    console.log(JSON.stringify(SSL));
+  }
+  function size(list) {
+    let tempNode = SSL.head;
+    let size = 0;
+    if (tempNode !== null) {
+      size = 1;
+      while (tempNode.next !== null) {
+        tempNode = tempNode.next;
+        size++;
+      }
+    }
+    return size;
+  }
+  function isEmpty(list) {
+    if (list.head !== null) {
+      return 'No';
+    }
+    return 'Yes';
+  }
+  function findPrevious(list, location) {
+    let tempNode = list.head;
+    while (tempNode.next.value !== location) {
+      tempNode = tempNode.next;
+    }
+    return tempNode;
+  }
+  function findLast(list) {
+    let tempNode = list.head;
+    while (tempNode.next !== null) {
+      tempNode = tempNode.next;
+    }
+    return tempNode;
+  }
+
+  //Deleting the pointer
+  // O(n^2)
+  function WhatDoesThisProgramDo(lst) {
+    let current = lst.head; //grabbing first link
+    while (current !== null) {
+      //current link does not === null
+      let newNode = current; //newNode becomes current (head)
+      while (newNode.next !== null) {
+        //newNode does not === null
+        if (newNode.next.value === current.value) {
+          //newNode.next value === current value
+          newNode.next = newNode.next.next; //newNode.next becomes newNode.next.next
+        } else {
+          newNode = newNode.next;
+          console.log(newNode);
+        }
+      }
+      current = current.next;
+    }
+  }
+  console.log(WhatDoesThisProgramDo(SSL));
 };
 
 main();
